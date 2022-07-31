@@ -42,8 +42,8 @@ jobs:
           format: sarif
           output-file: dockerlint-results.sarif
           no-fail: true
-      - name: Upload analysis results to GitHub
-        uses: github/codeql-action/upload-sarif@v2
+      - name: Save results as a artifact
+        uses: actions/upload-artifact@v3
         with:
-          sarif_file: dockerlint-results.sarif
-          wait-for-processing: true
+          name: dockerlint-results.sarif
+          path: ./dockerlint-results.sarif
