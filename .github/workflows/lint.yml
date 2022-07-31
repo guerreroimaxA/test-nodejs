@@ -1,4 +1,4 @@
-name: NodeJS Application
+name: Continuous Integration - CI
 
 on: push
 
@@ -47,5 +47,6 @@ jobs:
       #     path: ./dockerlint-results.sarif
   Deploy-Application:
     needs: ["Code-Quality-Checks", "Dockerfile-Quality-Checks"]
+    if: $GITHUB_REF_NAME == 'refs/heads/main'
     name: Deploying application
     uses: ./.github/workflows/deployment.yml

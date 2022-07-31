@@ -1,11 +1,7 @@
-name: NodeJS Application
+name: Continuous Delivery - CD
 
 on:
   workflow_call:
-
-  push:
-    branches:
-      - main
 
 env:
   SERVER_IP: "10.10.10.30"
