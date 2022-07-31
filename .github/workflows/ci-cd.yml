@@ -41,11 +41,10 @@ jobs:
           dockerfile: ./Dockerfile
           verbose: true
           format: sarif
-      #     format: sarif
-      #     output-file: dockerlint-results.sarif
-      #     no-fail: true
-      # - name: Save results as a artifact
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: dockerlint-results.sarif
-      #     path: ./dockerlint-results.sarif
+          output-file: dockerlint-results.sarif
+          no-fail: true
+      - name: Save results as a artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: dockerlint-results.sarif
+          path: ./dockerlint-results.sarif
