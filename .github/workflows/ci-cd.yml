@@ -38,7 +38,7 @@ jobs:
       - name: Lint Dockerfile
         uses: hadolint/hadolint-action@master
         with:
-          dockerfile: ./Dockerfile
+          dockerfile: "Dockerfile"
           # output-file: dockerlint-results.sarif
       #     no-fail: true
       # - name: Save results as a artifact
