@@ -1,0 +1,12 @@
+docker-compose*
+Dockerfile
+.dockerignore
+.git
+.github/
+.gitignore
+node_modules/
+npm-debug.log
+.pre-commit-config.yaml
+README.md
+LICENSE
+.vscode
