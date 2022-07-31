@@ -47,6 +47,6 @@ jobs:
       #     path: ./dockerlint-results.sarif
   Deploy-Application:
     needs: ["Code-Quality-Checks", "Dockerfile-Quality-Checks"]
-    if: $GITHUB_REF_NAME == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main'
     name: Deploying application
     uses: ./.github/workflows/deployment.yml
