@@ -11,22 +11,22 @@ jobs:
   Code-Quality-Checks:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python 3.10
-      uses: actions/setup-python@v3
-      with:
-        python-version: "3.10"
-    - name: Install pre-commit
-      run: |
-        python3 -m pip install --upgrade pip
-        pip3 install pre-commit
-    - name: Checking files
-      run: |
-        git clean -dfx
-        pre-commit run --all-files
+      - uses: actions/checkout@v3
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.10"
+      - name: Install pre-commit
+        run: |
+          python3 -m pip install --upgrade pip
+          pip3 install pre-commit
+      - name: Checking files
+        run: |
+          git clean -dfx
+          pre-commit run --all-files
   Dockerfile-Quality-Checks:
     runs-on: ubuntu-latest
-    container: hadolint/hadolint:v2.9.2
     steps:
       - name: Lint Dockerfile
-        run: hadolint Dockerfile
+        run: |
+          docker run --rm -i hadolint/hadolint:v2.9.2 < Dockerfile
