@@ -1,8 +1,6 @@
 name: NodeJS Application
 
-on:
-  push:
-    branches: [ "main" ]
+on: push
 
 permissions:
   contents: read
@@ -39,6 +37,7 @@ jobs:
         uses: hadolint/hadolint-action@master
         with:
           dockerfile: "Dockerfile"
+          no-fail: true
           # output-file: dockerlint-results.sarif
       #     no-fail: true
       # - name: Save results as a artifact
@@ -46,3 +45,7 @@ jobs:
       #   with:
       #     name: dockerlint-results.sarif
       #     path: ./dockerlint-results.sarif
+  Deploy-Application:
+    needs: ["Code-Quality-Checks", "Dockerfile-Quality-Checks"]
+    name: Deploying application
+    uses: ./.github/workflows/deployment.yml

@@ -1,0 +1,25 @@
+name: NodeJS Application
+
+on:
+  workflow_call:
+
+  push:
+    branches:
+      - main
+
+env:
+  SERVER_IP: "10.10.10.30"
+
+permissions:
+  contents: read
+
+jobs:
+  Deploy-App:
+    name: Deploy App
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Testin
+        run: |
+          echo "Deploying app on server $SERVER_IP..."
