@@ -26,9 +26,7 @@ jobs:
         pre-commit run --all-files
   Dockerfile-Quality-Checks:
     runs-on: ubuntu-latest
+    container: hadolint/hadolint:v2.9.2
     steps:
-      - uses: actions/checkout@v2
       - name: Lint Dockerfile
-        uses: hadolint/hadolint-action@master
-        with:
-          dockerfile: "Dockerfile"
+        run: hadolint Dockerfile
