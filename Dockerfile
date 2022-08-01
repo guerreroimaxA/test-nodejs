@@ -1,18 +1,12 @@
-FROM node:lts-alpine3.16@sha256:9a2db0008b592cfde1b98aa8972a8051ccb80bb51dde8b06c3a2e3762794e89c
+#Development environment
+FROM node:13.12.0-alpine
 
-RUN apk -U upgrade && apk add --no-cache \
-    dumb-init=1.2.5-r1
+WORKDIR /app
 
-ENV NODE_ENV=production
+COPY . .
 
-WORKDIR /usr/src/app
-
-COPY --chown=node:node . .
-
-RUN npm ci --only=production
-
-USER node
+RUN npm install --silent && npm run build
 
 EXPOSE 3000
 
-CMD ["dumb-init", "npm", "start"]
+CMD ["npm", "start"]

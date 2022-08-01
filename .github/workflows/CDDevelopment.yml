@@ -16,6 +16,17 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: Testing
-        run: |
-          ls
+      - name: Declare variables
+        id: vars
+        shell: bash
+        run: echo "::set-output name=commit_sha::$(git rev-parse --short HEAD)"
+      - name: Displaying ...
+        run: echo "${{ steps.vars.output.commit_sha}}"
+      # - name: Creating Docker image and deploy ...
+      #   uses: appleboy/ssh-action@master
+      #   with:
+      #     host: ${{ secrets.DEV_HOST }}
+      #     username: ${{ secrets.DEV_USERNAME }}
+      #     key: ${{ secrets.DEV_KEY }}
+      #     script: |
+      #       sudo docker build --force-rm -f ./Dockerfile -t outline-digital:dev-${{ steps.vars.output.commit_sha}}
