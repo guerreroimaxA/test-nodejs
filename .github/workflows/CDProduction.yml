@@ -1,4 +1,4 @@
-name: Continuous Delivery - CD
+name: Continuous Delivery to Production
 
 on:
   workflow_call:
@@ -18,4 +18,4 @@ jobs:
         uses: actions/checkout@v3
       - name: Testing
         run: |
-          echo "Deploying app on server $SERVER_IP..."
+          ls

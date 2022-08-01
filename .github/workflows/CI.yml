@@ -1,4 +1,4 @@
-name: Continuous Integration - CI
+name: Continuous Integration
 
 on: push
 
@@ -45,8 +45,13 @@ jobs:
       #   with:
       #     name: dockerlint-results.sarif
       #     path: ./dockerlint-results.sarif
-  Deploy-Application:
+  Deploy-Application-Prd:
     needs: ["Code-Quality-Checks", "Dockerfile-Quality-Checks"]
     if: github.ref == 'refs/heads/main'
-    name: Deploying application
-    uses: ./.github/workflows/deployment.yml
+    name: Deploying application to PRD
+    uses: ./.github/workflows/CDProduction.yml
+  Deploy-Application-Dev:
+    needs: ["Code-Quality-Checks", "Dockerfile-Quality-Checks"]
+    if: github.ref == 'refs/heads/dev'
+    name: Deploying application to DEV
+    uses: ./.github/workflows/CDDevelopment.yml
