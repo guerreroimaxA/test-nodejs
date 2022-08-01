@@ -21,7 +21,7 @@ jobs:
         shell: bash
         run: echo "::set-output name=commit_sha::$(git rev-parse --short HEAD)"
       - name: Displaying ...
-        run: echo "${{ steps.vars.output.commit_sha}}"
+        run: echo "${{ steps.vars.outputs.commit_sha}}"
       # - name: Creating Docker image and deploy ...
       #   uses: appleboy/ssh-action@master
       #   with:
