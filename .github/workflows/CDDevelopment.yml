@@ -1,0 +1,21 @@
+name: Continuous Delivery to Development
+
+on:
+  workflow_call:
+
+env:
+  SERVER_IP: "10.10.10.30"
+
+permissions:
+  contents: read
+
+jobs:
+  Deploy-App:
+    name: Deploy App
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Testing
+        run: |
+          ls
