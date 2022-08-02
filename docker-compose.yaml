@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  outline-digital:
+    image: outline-digital
+    container_name: outline-digital
+    environment:
+      - VIRTUAL_HOST=app.co
+    restart: always
+    expose:
+      - 3000
+    networks:
+      outline:
+        ipv4_address: 192.168.70.6
+
+  proxy:
+    image: jwilder/nginx-proxy:1.0.1
+    container_name: proxy
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - "/var/run/docker.sock:/tmp/docker.sock:ro"
+    networks:
+      outline:
+        ipv4_address: 192.168.70.5
+    depends_on:
+      - outline-digital
+
+networks:
+  outline:
+    name: outline
+    ipam:
+      driver: default
+      config:
+        - subnet: "192.168.70.0/24"

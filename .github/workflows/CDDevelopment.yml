@@ -4,14 +4,16 @@ on:
   workflow_call:
 
 env:
-  SERVER_IP: "10.10.10.30"
+  HOST: ${{ secrets.DEV_HOST }}
+  USERNAME: ${{ secrets.DEV_USERNAME }}
+  KEY: ${{ secrets.DEV_KEY }}
 
 permissions:
   contents: read
 
 jobs:
   Deploy-App:
-    name: Deploy App
+    name: Deploy APP
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -20,13 +22,29 @@ jobs:
         id: vars
         shell: bash
         run: echo "::set-output name=commit_sha::$(git rev-parse --short HEAD)"
-      - name: Displaying ...
-        run: echo "${{ steps.vars.outputs.commit_sha}}"
-      # - name: Creating Docker image and deploy ...
-      #   uses: appleboy/ssh-action@master
-      #   with:
-      #     host: ${{ secrets.DEV_HOST }}
-      #     username: ${{ secrets.DEV_USERNAME }}
-      #     key: ${{ secrets.DEV_KEY }}
-      #     script: |
-      #       sudo docker build --force-rm -f ./Dockerfile -t outline-digital:dev-${{ steps.vars.output.commit_sha}}
+      - name: Copy files to remote
+        uses: appleboy/scp-action@master
+        with:
+          host: $HOST
+          username: $USERNAME
+          key: $KEY
+          source: "./*"
+          target: "/home/$USERNAME/outline-digital"
+      - name: Creating Docker image ...
+        uses: appleboy/ssh-action@master
+        with:
+          host: $HOST
+          username: $USERNAME
+          key: $KEY
+          script: |
+            sudo docker build -f ./Dockerfile -t outline-digital:dev-${{ steps.vars.output.commit_sha}}
+      - name: Deploying Docker container ...
+        uses: appleboy/ssh-action@master
+        with:
+          host: $HOST
+          username: $USERNAME
+          key: $KEY
+          script: |
+            cd ~/outline-digital; sed -i -e "s|image:.*outline-digital*|image: outline-digital:dev-${{ steps.vars.output.commit_sha}}|" docker-compose.yaml
+            sudo docker-compose -f docker-compose.yaml up -d outline-digital
+            sed -i -e "s|image:.*outline-digital:dev-.*|image: outline-digital|" docker-compose.yaml'

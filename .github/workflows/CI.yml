@@ -27,9 +27,6 @@ jobs:
   Dockerfile-Quality-Checks:
     name: Dockerfile Quality Checks
     runs-on: ubuntu-latest
-    # permissions:
-    #   contents: read
-    #   security-events: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -38,20 +35,13 @@ jobs:
         with:
           dockerfile: "Dockerfile"
           no-fail: true
-          # output-file: dockerlint-results.sarif
-      #     no-fail: true
-      # - name: Save results as a artifact
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: dockerlint-results.sarif
-      #     path: ./dockerlint-results.sarif
   Deploy-Application-Prd:
     needs: ["Code-Quality-Checks", "Dockerfile-Quality-Checks"]
     if: github.ref == 'refs/heads/main'
-    name: Deploying application to PRD
+    name: Deploying Application to PRD
     uses: ./.github/workflows/CDProduction.yml
   Deploy-Application-Dev:
     needs: ["Code-Quality-Checks", "Dockerfile-Quality-Checks"]
     if: github.ref == 'refs/heads/dev'
-    name: Deploying application to DEV
+    name: Deploying Application to DEV
     uses: ./.github/workflows/CDDevelopment.yml
