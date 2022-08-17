@@ -12,34 +12,63 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+
       - name: Set up Python 3.10
         uses: actions/setup-python@v3
         with:
           python-version: "3.10"
+
       - name: Install pre-commit
         run: |
           python3 -m pip install --upgrade pip
           pip3 install pre-commit
+
       - name: Checking files
         run: |
           git clean -dfx
           pre-commit run --all-files
+
+  Nodejs-Quality-Checks:
+    name: Nodejs Quality Checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.16.0
+
+      - name: Install Node.js dependencies
+        run: npm ci
+
+      - name: Run linters
+        uses: wearerequired/lint-action@v2
+        with:
+          eslint: true
+          prettier: false
+
   Dockerfile-Quality-Checks:
     name: Dockerfile Quality Checks
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+
       - name: Lint Dockerfile
         uses: hadolint/hadolint-action@master
         with:
           dockerfile: "Dockerfile"
           no-fail: true
+
   Deploy-Application-Prd:
     needs: ["Code-Quality-Checks", "Dockerfile-Quality-Checks"]
     if: github.ref == 'refs/heads/main'
     name: Deploying Application to PRD
     uses: ./.github/workflows/CDProduction.yml
+
   Deploy-Application-Dev:
     needs: ["Code-Quality-Checks", "Dockerfile-Quality-Checks"]
     if: github.ref == 'refs/heads/dev'
