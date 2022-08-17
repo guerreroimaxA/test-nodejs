@@ -64,13 +64,13 @@ jobs:
           no-fail: true
 
   Deploy-Application-Prd:
-    needs: ["Code-Quality-Checks", "Dockerfile-Quality-Checks"]
+    needs: ["Code-Quality-Checks", "Nodejs-Quality-Checks", "Dockerfile-Quality-Checks"]
     if: github.ref == 'refs/heads/main'
     name: Deploying Application to PRD
     uses: ./.github/workflows/CDProduction.yml
 
   Deploy-Application-Dev:
-    needs: ["Code-Quality-Checks", "Dockerfile-Quality-Checks"]
+    needs: ["Code-Quality-Checks", "Nodejs-Quality-Checks", "Dockerfile-Quality-Checks"]
     if: github.ref == 'refs/heads/dev'
     name: Deploying Application to DEV
     uses: ./.github/workflows/CDDevelopment.yml
