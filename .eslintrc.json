@@ -16,6 +16,7 @@
     "ignorePatterns": ["app.spec.js"],
     "rules": {
         "arrow-body-style": ["error", "always"],
+        "block-scoped-var": ["warn"],
         "quotes": ["error", "double"],
         "semi": ["error", "always"],
         "semi-style": ["error", "last"],
